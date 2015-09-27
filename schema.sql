@@ -3,3 +3,10 @@ CREATE TABLE hiscores (
   score INTEGER
 );
 
+CREATE TABLE errors (
+  message VARCHAR(255),
+  url VARCHAR(255),
+  line VARCHAR(8),
+  col VARCHAR(8)
+);
+
