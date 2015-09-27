@@ -36,5 +36,5 @@ def put_error():
   return jsonify({'result': 'success'})
 
 if __name__ == '__main__':
-  app.run(debug=True)
+  app.run(host='0.0.0.0')
 
