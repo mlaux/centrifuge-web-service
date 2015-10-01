@@ -4,14 +4,27 @@ app = Flask(__name__)
 import sqlite
 from crossdomain import crossdomain
 
-SELECT_ALL_HISCORES = 'select * from hiscores order by score desc'
+SELECT_ALL_HISCORES = 'select * from hiscores order by score desc limit ?, ?'
 INSERT_NEW_HISCORE = 'insert into hiscores (username, score) values (?, ?)'
 REPORT_ERROR = 'insert into errors values (?, ?, ?, ?)'
 
 @app.route('/centrifuge/api/hiscores', methods=['GET'])
 @crossdomain(origin='*')
 def get_hiscores():
-  return jsonify(hiscores=sqlite.query_db(SELECT_ALL_HISCORES))
+  if not request.json:
+    abort(400)
+  if not 'start' in request.json or not 'count' in request.json:
+    abort(400)
+
+  start = request.json.get('start')
+
+  count = request.json.get('count')
+  if count > 50:
+    count = 50
+
+  result = sqlite.query_db(SELECT_ALL_HISCORES, (start, count))
+
+  return jsonify(hiscores=result)
 
 @app.route('/centrifuge/api/hiscores', methods=['PUT'])
 @crossdomain(origin='*')
