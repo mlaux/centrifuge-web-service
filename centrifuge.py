@@ -37,9 +37,12 @@ def put_hiscore():
 
   username = str(request.json.get('username'))
   username = username.lower()
-  username = re.sub(r'[^a-z]', '', username)
+  username = re.sub(r'[^a-z ]', '', username)
   if len(username) > 12:
     username = username[:12]
+
+  if username == '':
+    abort(400)
 
   sqlite.query_db(INSERT_NEW_HISCORE, (username, request.json.get('score')))
   return jsonify({'result': 'success'})
