@@ -8,7 +8,7 @@ SELECT_ALL_HISCORES = 'select * from hiscores order by score desc limit ?, ?'
 INSERT_NEW_HISCORE = 'insert into hiscores (username, score) values (?, ?)'
 REPORT_ERROR = 'insert into errors values (?, ?, ?, ?)'
 
-@app.route('/centrifuge/api/hiscores', methods=['GET'])
+@app.route('/centrifuge/api/hiscores', methods=['POST'])
 @crossdomain(origin='*')
 def get_hiscores():
   if not request.json:
